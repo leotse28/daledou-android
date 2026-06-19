@@ -1,52 +1,36 @@
 name: Build Android APK
 
 on:
-  push:branches: [ main ]
+  push:
+    branches: [ main ]
   workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-22.04
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v3
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v4
         with:
           python-version: '3.10'
-
-      - name: Cache Buildozer
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.buildozer
-            .buildozer
-          key: ${{ runner.os }}-buildozer-${{ hashFiles('buildozer.spec') }}
-          restore-keys: |
-            ${{ runner.os }}-buildozer-
 
       - name: Install dependencies
         run: |
           sudo apt update
-          sudo apt install -y \
-            git zip unzip openjdk-17-jdk python3-pip autoconf \
+          sudo apt install -y git zip unzip openjdk-17-jdk python3-pip autoconf \
             libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev \
-            libtinfo5 cmake libffi-dev libssl-dev
-          pip install --upgrade pip
-          pip install buildozer cython==0.29.33 kivy[base]
+            cmake libffi-dev libssl-dev
+          pip install buildozer cython
 
-      - name: Build APK with Buildozer
+      - name: Build APK
         run: |
-          # 自动接受 SDK 许可并开始构建
-          yes | buildozer android debug
-        env:
-          # 提高构建容错率
-          BUILDOZER_ALLOW_ORG_NAME_START_WITH_NUM: 1
+          cd ${{ github.workspace }}
+          buildozer android debug
 
       - name: Upload APK
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v3
         with:
-          name: daledou-android-apk
+          name: daledou-apk
           path: bin/*.apk
-          retention-days: 7
