@@ -7,7 +7,9 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-22.04
+    # 使用 ubuntu-latest 以匹配最新的 Node.js 环境
+    runs-on: ubuntu-latest
+    
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -15,7 +17,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.10'
+          python-version: '3.11' # 升级到 3.11 稳定性更好
 
       - name: Cache Buildozer
         uses: actions/cache@v4
@@ -30,18 +32,27 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt update
+          # 添加了更多的构建依赖，确保 Kivy 编译不报错
           sudo apt install -y \
             git zip unzip openjdk-17-jdk python3-pip autoconf \
             libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev \
-            libtinfo5 cmake libffi-dev libssl-dev
+            libtinfo5 cmake libffi-dev libssl-dev \
+            build-essential libsqlite3-dev sqlite3 bzip2 libbz2-dev \
+            libreadline-dev libgdbm-dev libdb5.3-dev libexpat1-dev \
+            liblzma-dev libffi-dev
           pip install --upgrade pip
-          pip install buildozer cython==0.29.33 kivy[base]
+          # 移除了固定的 old cython，让 buildozer 自动处理或使用较新版本
+          pip install buildozer cython
 
       - name: Build APK with Buildozer
         run: |
+          # 自动接受协议并开始
           yes | buildozer android debug
         env:
           BUILDOZER_ALLOW_ORG_NAME_START_WITH_NUM: 1
+          # 某些环境下需要指定编码
+          LC_ALL: en_US.UTF-8
+          LANG: en_US.UTF-8
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
