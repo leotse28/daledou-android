@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@color/bg_dark">
+
+    <!-- 账号选择行 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="12dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="选择账号: "
+            android:textColor="@color/text_secondary"
+            android:textSize="14sp"/>
+
+        <Spinner
+            android:id="@+id/spinnerQQ"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_input"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:popupBackground="@color/surface_card"/>
+
+        <Button
+            android:id="@+id/btnSaveAccount"
+            android:layout_width="wrap_content"
+            android:layout_height="34dp"
+            android:layout_marginStart="10dp"
+            android:text="@string/btn_save"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:background="@drawable/bg_btn_blue"
+            android:paddingStart="14dp"
+            android:paddingEnd="14dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="8dp">
+
+        <TextView
+            android:id="@+id/tvAccountHint"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="💡 账号配置优先于默认配置；未设置项使用默认值"
+            android:textColor="@color/text_hint"
+            android:textSize="11sp"/>
+
+        <Button
+            android:id="@+id/btnCopyFromDefault"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:text="复制默认"
+            android:textColor="@color/white"
+            android:textSize="11sp"
+            android:background="@drawable/bg_btn_grey"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvAccountMsg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textColor="@color/accent_green"
+        android:textSize="12sp"
+        android:layout_marginBottom="6dp"/>
+
+    <EditText
+        android:id="@+id/etAccountConfig"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@drawable/bg_input"
+        android:textColor="@color/text_primary"
+        android:textSize="12sp"
+        android:fontFamily="monospace"
+        android:padding="12dp"
+        android:gravity="top"
+        android:elevation="1dp"
+        android:inputType="textMultiLine"
+        android:scrollbars="vertical"
+        android:hint="选择账号后加载配置..."
+        android:textColorHint="@color/text_hint"/>
+</LinearLayout>

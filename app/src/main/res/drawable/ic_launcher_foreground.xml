@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- 外圆背景装饰 -->
+    <path
+        android:fillColor="#1A2A4A"
+        android:pathData="M54,20 A34,34,0,1,1,53.99,20Z"/>
+
+    <!-- 宝剑（垂直） -->
+    <path
+        android:fillColor="#4FC3F7"
+        android:pathData="M54,28 L51,56 L54,62 L57,56 Z"/>
+    <!-- 剑柄横档 -->
+    <path
+        android:fillColor="#F39C12"
+        android:pathData="M46,54 L62,54 L62,58 L46,58 Z"/>
+    <!-- 剑柄 -->
+    <path
+        android:fillColor="#F39C12"
+        android:pathData="M52,58 L52,70 L56,70 L56,58 Z"/>
+    <!-- 剑尖 -->
+    <path
+        android:fillColor="#80D8FF"
+        android:pathData="M54,25 L51,32 L54,28 L57,32 Z"/>
+
+    <!-- 星星装饰（左上） -->
+    <path
+        android:fillColor="#2ECC71"
+        android:pathData="M36,36 L37.5,40.5 L33,38 L39,38 L34.5,40.5 Z"/>
+    <!-- 星星装饰（右上） -->
+    <path
+        android:fillColor="#2ECC71"
+        android:pathData="M72,36 L73.5,40.5 L69,38 L75,38 L70.5,40.5 Z"/>
+
+</vector>

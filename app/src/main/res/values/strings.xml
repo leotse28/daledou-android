@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">无为乐斗</string>
+    <string name="title_main">✨ 无为乐斗</string>
+    <string name="btn_noon">🌞 午间任务</string>
+    <string name="btn_evening">🌙 晚间任务</string>
+    <string name="section_management">系统管理</string>
+    <string name="btn_account">🍪 账号</string>
+    <string name="btn_config">⚙️ 配置</string>
+    <string name="btn_log">📋 日志</string>
+    <string name="btn_test_connection">🔗 账号连通性检测</string>
+    <string name="status_ready">⏸ 就绪</string>
+    <string name="btn_stop">⏹ 停止任务</string>
+
+    <string name="title_log">📋 运行日志</string>
+    <string name="btn_back">← 返回</string>
+    <string name="btn_refresh">刷新</string>
+    <string name="btn_clear">清空</string>
+    <string name="loading">加载中&#8230;</string>
+
+    <string name="title_config">⚙️ 配置管理</string>
+    <string name="tab_default">默认配置</string>
+    <string name="tab_account">账号配置</string>
+    <string name="tab_tasks">任务注册</string>
+
+    <string name="title_cookie">🍪 Cookie 管理</string>
+    <string name="btn_load">读取</string>
+    <string name="btn_save">💾 保存</string>
+    <string name="cookie_hint">格式: openId=xxx; accessToken=xxx; newuin=QQ号 每行一个账号</string>
+    <string name="cookie_et_hint"># 大乐斗Cookie，每行一个账号\nDALEDOU_COOKIES:\n  - openId=xxx; accessToken=xxx; newuin=QQ号</string>
+</resources>

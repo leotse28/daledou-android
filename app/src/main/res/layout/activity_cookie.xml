@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/bg_dark">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:background="@color/surface_dark">
+
+        <Button
+            android:id="@+id/btnBack"
+            android:layout_width="wrap_content"
+            android:layout_height="34dp"
+            android:text="← 返回"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:background="@drawable/bg_btn_grey"
+            android:paddingLeft="12dp"
+        android:paddingRight="12dp"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="12dp"
+            android:text="🍪 Cookie 管理"
+            android:textColor="@color/primary_blue"
+            android:textSize="17sp"
+            android:textStyle="bold"/>
+
+        <Button
+            android:id="@+id/btnLoad"
+            android:layout_width="wrap_content"
+            android:layout_height="34dp"
+            android:text="读取"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:background="@drawable/bg_btn_grey"
+            android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+            android:layout_marginEnd="6dp"/>
+
+        <Button
+            android:id="@+id/btnSave"
+            android:layout_width="wrap_content"
+            android:layout_height="34dp"
+            android:text="💾 保存"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:background="@drawable/bg_btn_blue"
+            android:paddingLeft="10dp"
+        android:paddingRight="10dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp">
+
+        <TextView
+            android:id="@+id/tvMsg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="格式: openId=xxx; accessToken=xxx; newuin=QQ号  每行一个账号"
+            android:textColor="@color/text_hint"
+            android:textSize="11sp"/>
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/etCookie"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginBottom="12dp"
+        android:background="@drawable/bg_input"
+        android:textColor="@color/text_primary"
+        android:textSize="12sp"
+        android:fontFamily="monospace"
+        android:padding="10dp"
+        android:gravity="top"
+        android:inputType="textMultiLine"
+        android:scrollbars="vertical"
+        android:hint="# 大乐斗Cookie，每行一个账号&#10;DALEDOU_COOKIES:&#10;  - openId=xxx; accessToken=xxx; newuin=QQ号"
+        android:textColorHint="@color/text_hint"/>
+</LinearLayout>

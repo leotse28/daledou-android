@@ -1,0 +1,2 @@
+-keep class com.chaquo.** { *; }
+-keep class com.daledou.DaLeDouBridge { *; }
