@@ -7,9 +7,9 @@ on:
 
 jobs:
   build:
-    # 使用 ubuntu-latest 以匹配最新的 Node.js 环境
-    runs-on: ubuntu-latest
-    
+    # 强制使用 22.04 以确保旧版依赖库（如 libtinfo5）可用
+    runs-on: ubuntu-22.04
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -17,7 +17,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11' # 升级到 3.11 稳定性更好
+          python-version: '3.10'
 
       - name: Cache Buildozer
         uses: actions/cache@v4
@@ -32,7 +32,6 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt update
-          # 添加了更多的构建依赖，确保 Kivy 编译不报错
           sudo apt install -y \
             git zip unzip openjdk-17-jdk python3-pip autoconf \
             libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev \
@@ -41,8 +40,7 @@ jobs:
             libreadline-dev libgdbm-dev libdb5.3-dev libexpat1-dev \
             liblzma-dev libffi-dev
           pip install --upgrade pip
-          # 移除了固定的 old cython，让 buildozer 自动处理或使用较新版本
-          pip install buildozer cython
+          pip install buildozer cython==0.29.33
 
       - name: Build APK with Buildozer
         run: |
@@ -50,7 +48,7 @@ jobs:
           yes | buildozer android debug
         env:
           BUILDOZER_ALLOW_ORG_NAME_START_WITH_NUM: 1
-          # 某些环境下需要指定编码
+          # 设置编码，防止打包过程中的字符集报错
           LC_ALL: en_US.UTF-8
           LANG: en_US.UTF-8
 
