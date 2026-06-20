@@ -5,94 +5,181 @@
     android:orientation="vertical"
     android:background="@color/bg_dark">
 
-    <LinearLayout
+    <!-- 顶部标题栏 -->
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="52dp"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:paddingLeft="12dp"
-        android:paddingRight="12dp"
+        android:layout_height="56dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
         android:background="@color/surface_dark">
 
         <Button
             android:id="@+id/btnBack"
             android:layout_width="wrap_content"
-            android:layout_height="34dp"
+            android:layout_height="32dp"
+            android:layout_centerVertical="true"
             android:text="← 返回"
             android:textColor="@color/white"
-            android:textSize="12sp"
+            android:textSize="11sp"
             android:background="@drawable/bg_btn_grey"
-            android:paddingLeft="12dp"
-        android:paddingRight="12dp"/>
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"/>
 
         <TextView
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginStart="12dp"
-            android:text="🍪 Cookie 管理"
+            android:layout_centerInParent="true"
+            android:text="Cookie 管理中心"
             android:textColor="@color/primary_blue"
             android:textSize="17sp"
             android:textStyle="bold"/>
 
         <Button
-            android:id="@+id/btnLoad"
-            android:layout_width="wrap_content"
-            android:layout_height="34dp"
-            android:text="读取"
-            android:textColor="@color/white"
-            android:textSize="12sp"
-            android:background="@drawable/bg_btn_grey"
-            android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-            android:layout_marginEnd="6dp"/>
-
-        <Button
             android:id="@+id/btnSave"
             android:layout_width="wrap_content"
-            android:layout_height="34dp"
+            android:layout_height="32dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
             android:text="💾 保存"
             android:textColor="@color/white"
-            android:textSize="12sp"
+            android:textSize="11sp"
+            android:textStyle="bold"
             android:background="@drawable/bg_btn_blue"
             android:paddingLeft="10dp"
-        android:paddingRight="10dp"/>
-    </LinearLayout>
+            android:paddingRight="10dp"/>
+    </RelativeLayout>
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingLeft="12dp"
-        android:paddingRight="12dp"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp">
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
-        <TextView
-            android:id="@+id/tvMsg"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="格式: openId=xxx; accessToken=xxx; newuin=QQ号  每行一个账号"
-            android:textColor="@color/text_hint"
-            android:textSize="11sp"/>
-    </LinearLayout>
+            android:orientation="vertical"
+            android:padding="16dp">
 
-    <EditText
-        android:id="@+id/etCookie"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_marginLeft="12dp"
-        android:layout_marginRight="12dp"
-        android:layout_marginBottom="12dp"
-        android:background="@drawable/bg_input"
-        android:textColor="@color/text_primary"
-        android:textSize="12sp"
-        android:fontFamily="monospace"
-        android:padding="10dp"
-        android:gravity="top"
-        android:inputType="textMultiLine"
-        android:scrollbars="vertical"
-        android:hint="# 大乐斗Cookie，每行一个账号&#10;DALEDOU_COOKIES:&#10;  - openId=xxx; accessToken=xxx; newuin=QQ号"
-        android:textColorHint="@color/text_hint"/>
+            <!-- 提示卡片 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/bg_card"
+                android:padding="12dp"
+                android:layout_marginBottom="16dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="💡 操作指引"
+                    android:textColor="@color/primary_blue"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="4dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="粘贴单条或多条 Cookie。系统将自动提取 newuin 账号。保存后可从主界面选择运行。"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="11sp"
+                    android:lineSpacingExtra="2dp"/>
+            </LinearLayout>
+
+            <!-- 操作按钮组 (历史、恢复、备份) -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="16dp">
+
+                <Button
+                    android:id="@+id/btnHistory"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="8dp"
+                    android:text="📋 历史记录"
+                    android:textColor="@color/white"
+                    android:textSize="11sp"
+                    android:background="@drawable/bg_btn_blue"
+                    android:alpha="0.9"/>
+
+                <Button
+                    android:id="@+id/btnLocalRestore"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="8dp"
+                    android:text="📥 恢复备份"
+                    android:textColor="@color/white"
+                    android:textSize="11sp"
+                    android:background="@drawable/bg_btn_grey"/>
+
+                <Button
+                    android:id="@+id/btnLocalBackup"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_weight="1"
+                    android:text="📤 导出备份"
+                    android:textColor="@color/white"
+                    android:textSize="11sp"
+                    android:background="@drawable/bg_btn_orange"/>
+            </LinearLayout>
+
+            <!-- 输入区域 -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="COOKIE 数据输入"
+                android:textColor="@color/text_low_gray"
+                android:textSize="11sp"
+                android:layout_marginBottom="8dp"
+                android:letterSpacing="0.1"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:minHeight="240dp"
+                android:background="@drawable/bg_card"
+                android:orientation="vertical"
+                android:padding="2dp">
+
+                <EditText
+                    android:id="@+id/etCookie"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/transparent"
+                    android:textColor="@color/text_primary"
+                    android:textSize="12sp"
+                    android:fontFamily="monospace"
+                    android:padding="12dp"
+                    android:gravity="top"
+                    android:inputType="textMultiLine"
+                    android:scrollbars="vertical"
+                    android:hint="在此粘贴 Cookie 内容 如\n - openId=0526B37P93216077942B70F76802A8DF; accessToken=FD214B0D171A2CB66E123A1B6B1985FB; newuin=567169927\n - openId=391B87FEB572313EF64C5131333D4F1F; accessToken=11F8A1F695AA7A0328B551DDFD5924B1; newuin=9827610436"
+                    android:textColorHint="@color/text_hint"/>
+            </LinearLayout>
+
+            <!-- 状态信息 -->
+            <TextView
+                android:id="@+id/tvMsg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="就绪"
+                android:textColor="@color/text_low_gray"
+                android:textSize="11sp"
+                android:gravity="center"/>
+
+            <!-- 底部占位 -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="32dp"/>
+
+        </LinearLayout>
+    </ScrollView>
+
 </LinearLayout>

@@ -2,18 +2,18 @@
 <resources>
     <style name="Theme.DaLeDou" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/primary_warm</item>
-        <item name="colorPrimaryVariant">@color/primary_dark_warm</item>
+        <item name="colorPrimary">@color/primary_indigo</item>
+        <item name="colorPrimaryVariant">@color/primary_indigo_dark</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/accent_warm</item>
-        <item name="colorSecondaryVariant">@color/primary_dark_warm</item>
+        <item name="colorSecondary">@color/accent_soft_blue</item>
+        <item name="colorSecondaryVariant">@color/primary_indigo_dark</item>
         <item name="colorOnSecondary">@color/white</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor">@color/surface_warm</item>
+        <item name="android:statusBarColor">@color/bg_light</item>
         <item name="android:windowLightStatusBar">true</item>
         <!-- Background color. -->
-        <item name="android:windowBackground">@color/bg_warm</item>
-        <item name="android:navigationBarColor">@color/bg_warm</item>
+        <item name="android:windowBackground">@color/bg_light</item>
+        <item name="android:navigationBarColor">@color/bg_light</item>
     </style>
 </resources>

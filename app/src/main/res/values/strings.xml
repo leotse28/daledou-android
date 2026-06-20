@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">无为乐斗</string>
-    <string name="title_main">✨ 无为乐斗</string>
+    <!-- App 名称已迁移至 app/build.gradle 统一管理 -->
+    <string name="title_main">✨ 大乐斗助手</string>
     <string name="btn_noon">🌞 午间任务</string>
     <string name="btn_evening">🌙 晚间任务</string>
     <string name="section_management">系统管理</string>

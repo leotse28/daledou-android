@@ -4,9 +4,9 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/bg_dark"
-    android:padding="16dp">
+    android:padding="12dp">
 
-    <!-- 标题 -->
+    <!-- 标题栏 -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -15,51 +15,121 @@
         android:layout_marginBottom="12dp">
 
         <TextView
+            android:id="@+id/tvTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="🎮 大乐斗助手"
             android:textColor="@color/primary_blue"
             android:textSize="20sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:letterSpacing="0.05"/>
 
         <TextView
             android:id="@+id/tvAccountInfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="加载中..."
+            android:text="未选择账号"
             android:textColor="@color/text_secondary"
             android:textSize="11sp"/>
     </LinearLayout>
 
-    <!-- 状态栏 -->
-    <TextView
-        android:id="@+id/tvStatus"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="⏸ 就绪"
-        android:textColor="@color/text_secondary"
-        android:textSize="13sp"
-        android:background="@drawable/bg_card"
-        android:padding="10dp"
-        android:layout_marginBottom="14dp"/>
-
-    <!-- 执行按钮 -->
+    <!-- 账号选择卡片 -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginBottom="8dp">
+        android:gravity="center_vertical"
+        android:background="@drawable/bg_card"
+        android:padding="10dp"
+        android:layout_marginBottom="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="当前账号:"
+            android:textColor="@color/text_primary"
+            android:textSize="13sp"
+            android:layout_marginEnd="8dp"/>
+
+        <Spinner
+            android:id="@+id/spAccounts"
+            android:layout_width="0dp"
+            android:layout_height="36dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_input"
+            android:overlapAnchor="false"
+            android:spinnerMode="dropdown"/>
+
+        <Button
+            android:id="@+id/btnRefreshAccounts"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:layout_marginStart="8dp"
+            android:text="刷新"
+            android:textSize="10sp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:textColor="@color/white"
+            android:background="@drawable/bg_btn_grey"/>
+
+        <Button
+            android:id="@+id/btnDeleteAccount"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:layout_marginStart="6dp"
+            android:text="删除"
+            android:textSize="10sp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:textColor="@color/white"
+            android:background="@drawable/bg_btn_red"/>
+    </LinearLayout>
+
+    <!-- 状态显示面板 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/bg_card"
+        android:padding="12dp"
+        android:layout_marginBottom="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="系统状态"
+            android:textColor="@color/text_low_gray"
+            android:textSize="10sp"
+            android:textAllCaps="true"
+            android:layout_marginBottom="4dp"/>
+
+        <TextView
+            android:id="@+id/tvStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="⏸ 就绪"
+            android:textColor="@color/text_secondary"
+            android:textSize="14sp"
+            android:textStyle="bold"/>
+    </LinearLayout>
+
+    <!-- 核心执行区 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:orientation="horizontal"
+        android:layout_marginBottom="12dp">
 
         <Button
             android:id="@+id/btnRunNoon"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:layout_marginEnd="6dp"
-            android:text="🌞 执行午间任务"
+            android:layout_marginEnd="8dp"
+            android:text="🌞 午间任务"
             android:textColor="@color/white"
-            android:textSize="14sp"
+            android:textSize="13sp"
             android:textStyle="bold"
             android:background="@drawable/bg_btn_blue"/>
 
@@ -68,9 +138,9 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="🌙 执行晚间任务"
+            android:text="🌙 晚间任务"
             android:textColor="@color/white"
-            android:textSize="14sp"
+            android:textSize="13sp"
             android:textStyle="bold"
             android:background="@drawable/bg_btn_green"/>
     </LinearLayout>
@@ -78,84 +148,83 @@
     <Button
         android:id="@+id/btnStop"
         android:layout_width="match_parent"
-        android:layout_height="42dp"
-        android:layout_marginBottom="16dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="20dp"
         android:text="⏹ 停止任务"
         android:textColor="@color/white"
-        android:textSize="13sp"
+        android:textSize="12sp"
         android:background="@drawable/bg_btn_red"
-        android:alpha="0.5"/>
+        android:alpha="0.8"/>
 
-    <!-- 初始化按钮 -->
-    <Button
-        android:id="@+id/btnInitEnv"
-        android:layout_width="match_parent"
-        android:layout_height="44dp"
-        android:layout_marginBottom="16dp"
-        android:text="📁 初始化环境 / 释放模板"
-        android:textColor="@color/white"
-        android:textSize="13sp"
-        android:textStyle="bold"
-        android:background="@drawable/bg_btn_orange"/>
-
-    <!-- 功能按钮区 -->
+    <!-- 底部功能矩阵 -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="管理功能"
-        android:textColor="@color/text_secondary"
-        android:textSize="12sp"
+        android:text="实验室与设置"
+        android:textColor="@color/text_low_gray"
+        android:textSize="11sp"
         android:layout_marginBottom="8dp"/>
 
-    <!-- 第一行：Cookie / 配置管理 / 日志 -->
-    <LinearLayout
+    <GridLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="8dp">
+        android:columnCount="3"
+        android:rowCount="2">
 
         <Button
             android:id="@+id/btnCookie"
             android:layout_width="0dp"
             android:layout_height="44dp"
-            android:layout_weight="1"
+            android:layout_columnWeight="1"
             android:layout_marginEnd="6dp"
-            android:text="🍪 Cookie"
+            android:layout_marginBottom="8dp"
+            android:text="🍪 账号"
             android:textColor="@color/white"
-            android:textSize="12sp"
+            android:textSize="11sp"
             android:background="@drawable/bg_btn_grey"/>
 
         <Button
             android:id="@+id/btnConfig"
             android:layout_width="0dp"
             android:layout_height="44dp"
-            android:layout_weight="1"
+            android:layout_columnWeight="1"
             android:layout_marginEnd="6dp"
-            android:text="⚙️ 配置管理"
+            android:text="⚙️ 配置"
             android:textColor="@color/white"
-            android:textSize="12sp"
-            android:background="@drawable/bg_btn_orange"/>
+            android:textSize="11sp"
+            android:background="@drawable/bg_btn_grey"/>
 
         <Button
             android:id="@+id/btnLog"
             android:layout_width="0dp"
             android:layout_height="44dp"
-            android:layout_weight="1"
-            android:text="📋 运行日志"
+            android:layout_columnWeight="1"
+            android:text="📋 日志"
             android:textColor="@color/white"
-            android:textSize="12sp"
+            android:textSize="11sp"
             android:background="@drawable/bg_btn_grey"/>
-    </LinearLayout>
 
-    <!-- 第二行：连通性测试（独立一行，突出显示） -->
-    <Button
-        android:id="@+id/btnTest"
-        android:layout_width="match_parent"
-        android:layout_height="44dp"
-        android:text="🔗 账号连通性测试"
-        android:textColor="@color/white"
-        android:textSize="13sp"
-        android:textStyle="bold"
-        android:background="@drawable/bg_btn_blue"/>
+        <Button
+            android:id="@+id/btnTest"
+            android:layout_width="0dp"
+            android:layout_height="44dp"
+            android:layout_columnWeight="1"
+            android:layout_columnSpan="2"
+            android:layout_marginEnd="6dp"
+            android:text="🔗 连通性测试"
+            android:textColor="@color/white"
+            android:textSize="11sp"
+            android:background="@drawable/bg_btn_grey"/>
+
+        <Button
+            android:id="@+id/btnInitEnv"
+            android:layout_width="0dp"
+            android:layout_height="44dp"
+            android:layout_columnWeight="1"
+            android:text="📁 环境"
+            android:textColor="@color/white"
+            android:textSize="11sp"
+            android:background="@drawable/bg_btn_orange"/>
+    </GridLayout>
 
 </LinearLayout>

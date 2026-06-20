@@ -173,9 +173,66 @@ def get_enabled_tasks(module):
     module_reg = register.get(module, {})
     return [t for t in tasks if module_reg.get(t, True)]
 
+def save_single_cookie(cookie_str):
+    """保存单条或多条 Cookie 并更新列表"""
+    import re
+    # 匹配 newuin=123456
+    qq_matches = re.findall(r"newuin=(\d+)", cookie_str)
+    if not qq_matches:
+        raise Exception("Cookie 格式错误，未找到 newuin=... 部分")
+
+    # 我们将输入按行分割处理，如果是 YAML 格式，去除前面的 " - "
+    lines = cookie_str.splitlines()
+    new_cookies_added = []
+    for line in lines:
+        line = line.strip()
+        if not line or "DALEDOU_COOKIES" in line: continue
+        # 去除 YAML 符号
+        clean_line = line.lstrip("- ").strip()
+        if "newuin=" in clean_line:
+            new_cookies_added.append(clean_line)
+
+    if not new_cookies_added:
+        raise Exception("未解析到有效的 Cookie 条目")
+
+    # 读取旧的
+    old_cookies = load_cookies()
+    cookie_dict = {}
+
+    # 先放入旧的
+    for ck in old_cookies:
+        m = re.search(r"newuin=(\d+)", ck)
+        if m: cookie_dict[m.group(1)] = ck
+
+    # 放入新的 (覆盖同 QQ 的)
+    last_qq = ""
+    for ck in new_cookies_added:
+        m = re.search(r"newuin=(\d+)", ck)
+        if m:
+            last_qq = m.group(1)
+            cookie_dict[last_qq] = ck
+
+    # 重新序列化
+    final_list = list(cookie_dict.values())
+    save_cookies(yaml.dump({"DALEDOU_COOKIES": final_list}, allow_unicode=True, sort_keys=False))
+
+    return last_qq
+
+def delete_cookie(qq):
+    """根据 QQ 号删除指定的 Cookie"""
+    import re
+    old_cookies = load_cookies()
+    new_list = []
+    for ck in old_cookies:
+        if f"newuin={qq}" not in ck:
+            new_list.append(ck)
+
+    save_cookies(yaml.dump({"DALEDOU_COOKIES": new_list}, allow_unicode=True, sort_keys=False))
+    return "ok"
+
 # ========== 任务执行 ==========
 
-def run_module(module):
+def run_module(module, target_qq=None):
     _stop_event.clear()
 
     import src.utils.log as log_mod
@@ -193,7 +250,11 @@ def run_module(module):
     enabled = get_enabled_tasks(module)
     filtered_registry = {k: v for k, v in full_registry.items() if k in enabled}
 
-    cookies = Config.load_cookies()
+    if target_qq:
+        cookies = Config.load_cookies(target_qq)
+    else:
+        cookies = Config.load_cookies()
+
     if not cookies:
         _write_log("未配置 Cookie，无法执行任务", "system")
         return "no cookies"
@@ -269,9 +330,29 @@ async def _async_test_account(qq, cookie_dict):
             if "请先登录" in html or len(html) < 100:
                 return {"qq": qq, "status": "fail", "msg": "Cookie 已失效"}
 
-            name = (re.search(r"昵称[:：]\s*([^\s<\n]+)", html) or [None, "未知"])[1]
-            level = (re.search(r"等级[:：]\s*(\d+)", html) or [None, "?"])[1]
-            return {"qq": qq, "status": "ok", "name": name, "level": level, "msg": "连接正常"}
+            # 更加宽松的正则匹配，处理 HTML 标签和多余空格
+            def quick_find(pattern, default="-"):
+                m = re.search(pattern, html, re.S)
+                if m:
+                    # 去除匹配结果中的 HTML 标签
+                    res = re.sub(r"<[^>]+>", "", m.group(1)).strip()
+                    return res if res else default
+                return default
+
+            name = quick_find(r"昵称[:：]\s*(.*?)[<|\n|\s]")
+            level = quick_find(r"等级[:：]\s*(\d+)")
+            hp = quick_find(r"体力[:：]\s*(\d+/\d+)")
+            power = quick_find(r"战力[:：]\s*(\d+)")
+
+            return {
+                "qq": qq,
+                "status": "ok",
+                "name": name,
+                "level": level,
+                "hp": hp,
+                "power": power,
+                "msg": "连接正常"
+            }
     except Exception as e:
         return {"qq": qq, "status": "error", "msg": str(e)}
 

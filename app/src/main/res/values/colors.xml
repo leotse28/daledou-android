@@ -1,34 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- 暖色系高级配色 -->
-    <color name="bg_warm">#FFFDF5</color>
-    <color name="surface_warm">#FFF3E0</color>
-    <color name="surface_card_warm">#FFFFFF</color>
+    <!-- 极简明亮/高级浅色配色 (Premium Light) -->
+    <color name="bg_light">#F8FAFC</color>
+    <color name="surface_light">#FFFFFF</color>
+    <color name="surface_card_light">#F1F5F9</color>
 
-    <color name="primary_warm">#E67E22</color>
-    <color name="primary_dark_warm">#D35400</color>
-    <color name="accent_warm">#F39C12</color>
+    <!-- 品牌色：优雅蓝/靛蓝 -->
+    <color name="primary_indigo">#6366F1</color>
+    <color name="primary_indigo_dark">#4F46E5</color>
+    <color name="accent_soft_blue">#38BDF8</color>
 
-    <color name="text_main">#2C3E50</color>
-    <color name="text_sub">#7F8C8D</color>
-    <color name="text_hint_warm">#BDC3C7</color>
+    <!-- 文字颜色 -->
+    <color name="text_main">#0F172A</color>
+    <color name="text_sub">#475569</color>
+    <color name="text_hint_light">#94A3B8</color>
 
-    <color name="status_green">#27AE60</color>
-    <color name="status_red">#C0392B</color>
+    <!-- 状态色 -->
+    <color name="status_green">#10B981</color>
+    <color name="status_red">#EF4444</color>
+    <color name="status_orange">#F59E0B</color>
+
+    <!-- 暖色调 (Warm Palette) - 用于辅助色或替代色 -->
+    <color name="primary_warm">#F59E0B</color>
+    <color name="primary_dark_warm">#D97706</color>
+    <color name="surface_warm">#FFFBEB</color>
+    <color name="surface_card_warm">#FEF3C7</color>
+
+    <!-- 灰色调 -->
+    <color name="text_low_gray">#94A3B8</color>
 
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
 
-    <!-- 兼容旧引用名 -->
-    <color name="bg_dark">@color/bg_warm</color>
-    <color name="surface_dark">@color/surface_warm</color>
-    <color name="surface_card">@color/surface_card_warm</color>
-    <color name="primary_blue">@color/primary_warm</color>
-    <color name="primary_blue_dark">@color/primary_dark_warm</color>
+    <!-- 映射到旧引用名，确保布局文件能正常解析 -->
+    <color name="bg_dark">#F8FAFC</color>
+    <color name="surface_dark">#FFFFFF</color>
+    <color name="surface_card">@color/surface_card_light</color>
+    <color name="primary_blue">@color/primary_indigo</color>
+    <color name="primary_blue_dark">@color/primary_indigo_dark</color>
     <color name="accent_green">@color/status_green</color>
     <color name="accent_red">@color/status_red</color>
-    <color name="accent_orange">@color/accent_warm</color>
+    <color name="accent_orange">@color/status_orange</color>
     <color name="text_primary">@color/text_main</color>
     <color name="text_secondary">@color/text_sub</color>
-    <color name="text_hint">@color/text_hint_warm</color>
+    <color name="text_hint">@color/text_hint_light</color>
 </resources>

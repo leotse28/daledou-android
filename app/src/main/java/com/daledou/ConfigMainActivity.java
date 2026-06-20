@@ -70,7 +70,8 @@ public class ConfigMainActivity extends AppCompatActivity {
         for (int i = 0; i < tabs.length; i++) {
             tabs[i].setBackgroundResource(i == active
                 ? R.drawable.bg_tab_selected : R.drawable.bg_tab_normal);
-            tabs[i].setTextColor(i == active ? 0xFF4FC3F7 : 0xFF9E9E9E);
+            // 激活时为白色，非激活时为深灰色
+            tabs[i].setTextColor(i == active ? 0xFFFFFFFF : 0xFF475569);
         }
     }
 }

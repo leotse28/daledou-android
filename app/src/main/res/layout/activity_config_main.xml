@@ -40,12 +40,12 @@
     <!-- Tab 选择 -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="44dp"
+        android:layout_height="54dp"
         android:orientation="horizontal"
         android:paddingLeft="12dp"
         android:paddingRight="12dp"
-        android:paddingTop="6dp"
-        android:paddingBottom="6dp"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
         android:background="@color/surface_dark">
 
         <Button
@@ -56,7 +56,11 @@
             android:layout_marginEnd="4dp"
             android:text="默认配置"
             android:textColor="@color/white"
-            android:textSize="12sp"
+            android:textSize="13sp"
+            android:padding="0dp"
+            android:minHeight="0dp"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
             android:background="@drawable/bg_tab_selected"/>
 
         <Button
@@ -65,10 +69,14 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:layout_marginLeft="4dp"
-        android:layout_marginRight="4dp"
+            android:layout_marginRight="4dp"
             android:text="账号配置"
             android:textColor="@color/text_secondary"
-            android:textSize="12sp"
+            android:textSize="13sp"
+            android:padding="0dp"
+            android:minHeight="0dp"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
             android:background="@drawable/bg_tab_normal"/>
 
         <Button
@@ -79,7 +87,11 @@
             android:layout_marginStart="4dp"
             android:text="任务注册"
             android:textColor="@color/text_secondary"
-            android:textSize="12sp"
+            android:textSize="13sp"
+            android:padding="0dp"
+            android:minHeight="0dp"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
             android:background="@drawable/bg_tab_normal"/>
     </LinearLayout>
 

@@ -1,6 +1,6 @@
 plugins {
     id 'com.android.application'
-    id 'com.chaquo.python' version '15.0.1'
+    id 'com.chaquo.python' version '16.0.0'
 }
 
 android {
@@ -12,7 +12,14 @@ android {
         minSdk 26
         targetSdk 34
         versionCode 1
-        versionName "1.0.0"
+        versionName "1.0.1"
+
+        // 统一配置中心：修改此处即可同步更新 App 名称和文件夹名
+        // 修改后请点击 "Sync Now" 并重新编译
+        resValue "string", "app_name", "大乐斗助手"
+        buildConfigField "String", "GLOBAL_APP_NAME", "\"大乐斗助手\""
+        resValue "string", "config_dir_name", "1A大乐斗配置"
+        buildConfigField "String", "GLOBAL_CONF_DIR", "\"1A大乐斗配置\""
 
         ndk {
             // Added armeabi-v7a and x86 to support 32-bit architectures
@@ -45,6 +52,7 @@ android {
 
     buildFeatures {
         viewBinding true
+        buildConfig true
     }
 }
 

@@ -10,7 +10,9 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.Settings;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
@@ -21,6 +23,8 @@ import com.chaquo.python.PyObject;
 import com.chaquo.python.Python;
 import com.chaquo.python.android.AndroidPlatform;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -28,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView tvStatus, tvAccountInfo;
     private Button btnRunNoon, btnRunEvening, btnStop, btnInitEnv;
+    private Spinner spAccounts;
     private boolean isRunning = false;
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
     private final Handler handler = new Handler(Looper.getMainLooper());
@@ -37,6 +42,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // 使用 AppConfig 动态设置标题
+        TextView tvTitle = findViewById(R.id.tvTitle);
+        if (tvTitle != null) tvTitle.setText("🎮 " + AppConfig.APP_NAME);
 
         if (!Python.isStarted()) {
             Python.start(new AndroidPlatform(this));
@@ -48,6 +57,8 @@ public class MainActivity extends AppCompatActivity {
         btnRunEvening = findViewById(R.id.btnRunEvening);
         btnStop       = findViewById(R.id.btnStop);
         btnInitEnv    = findViewById(R.id.btnInitEnv);
+        spAccounts    = findViewById(R.id.spAccounts);
+        Button btnRefreshAccounts = findViewById(R.id.btnRefreshAccounts);
 
         findViewById(R.id.btnCookie).setOnClickListener(v ->
             startActivity(new Intent(this, CookieActivity.class)));
@@ -63,8 +74,36 @@ public class MainActivity extends AppCompatActivity {
         btnStop.setOnClickListener(v -> stopTask());
         
         btnInitEnv.setOnClickListener(v -> handleManualInit());
+        btnRefreshAccounts.setOnClickListener(v -> loadAccountInfo());
+        
+        findViewById(R.id.btnDeleteAccount).setOnClickListener(v -> confirmDeleteAccount());
 
         checkStoragePermission();
+    }
+
+    private void confirmDeleteAccount() {
+        String selectedQq = spAccounts.getSelectedItem() != null ? spAccounts.getSelectedItem().toString() : "";
+        if (selectedQq.isEmpty() || selectedQq.contains("请先配置")) return;
+        
+        new androidx.appcompat.app.AlertDialog.Builder(this)
+                .setTitle("⚠️ 确认删除")
+                .setMessage("是否确认删除账号: " + selectedQq + "？\n此操作仅从应用列表中移除。")
+                .setPositiveButton("确认删除", (dialog, which) -> {
+                    executor.execute(() -> {
+                        try {
+                            PyObject bridge = Python.getInstance().getModule("bridge");
+                            bridge.callAttr("delete_cookie", selectedQq);
+                            handler.post(() -> {
+                                Toast.makeText(this, "✅ 账号已删除", Toast.LENGTH_SHORT).show();
+                                loadAccountInfo();
+                            });
+                        } catch (Exception e) {
+                            handler.post(() -> Toast.makeText(this, "❌ 删除失败: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+                        }
+                    });
+                })
+                .setNegativeButton("取消", null)
+                .show();
     }
 
     private void checkStoragePermission() {
@@ -85,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
     private void initPythonPath() {
         executor.execute(() -> {
             try {
-                File externalDir = new File(Environment.getExternalStorageDirectory(), "AwuweiDDL");
+                File externalDir = new File(Environment.getExternalStorageDirectory(), AppConfig.CONF_DIR_NAME);
                 if (!externalDir.exists()) externalDir.mkdirs();
                 
                 PyObject bridge = Python.getInstance().getModule("bridge");
@@ -100,13 +139,11 @@ public class MainActivity extends AppCompatActivity {
     private void handleManualInit() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             if (!Environment.isExternalStorageManager()) {
-                Toast.makeText(this, "请先授予所有文件管理权限", Toast.LENGTH_SHORT).show();
                 checkStoragePermission();
                 return;
             }
         } else {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(this, "请先授予存储权限", Toast.LENGTH_SHORT).show();
                 checkStoragePermission();
                 return;
             }
@@ -114,25 +151,20 @@ public class MainActivity extends AppCompatActivity {
 
         executor.execute(() -> {
             try {
-                File externalDir = new File(Environment.getExternalStorageDirectory(), "AwuweiDDL");
-                String message;
+                File externalDir = new File(Environment.getExternalStorageDirectory(), AppConfig.CONF_DIR_NAME);
                 if (!externalDir.exists()) {
-                    if (externalDir.mkdirs()) {
-                        message = "已创建 AwuweiDDL 文件夹并释放模板文件";
-                    } else {
-                        message = "文件夹创建失败，请检查权限";
-                    }
-                } else {
-                    message = "配置文件夹已存在：" + externalDir.getAbsolutePath();
+                    externalDir.mkdirs();
                 }
 
                 PyObject bridge = Python.getInstance().getModule("bridge");
                 bridge.callAttr("init_app", externalDir.getAbsolutePath());
                 
-                handler.post(() -> Toast.makeText(this, message, Toast.LENGTH_LONG).show());
-                loadAccountInfo();
+                handler.post(() -> {
+                    Toast.makeText(this, "✅ 环境初始化完成", Toast.LENGTH_SHORT).show();
+                    loadAccountInfo();
+                });
             } catch (Exception e) {
-                handler.post(() -> Toast.makeText(this, "初始化异常: " + e.getMessage(), Toast.LENGTH_LONG).show());
+                handler.post(() -> Toast.makeText(this, "❌ 初始化失败: " + e.getMessage(), Toast.LENGTH_SHORT).show());
             }
         });
     }
@@ -163,8 +195,22 @@ public class MainActivity extends AppCompatActivity {
         executor.execute(() -> {
             try {
                 PyObject bridge = Python.getInstance().getModule("bridge");
-                String info = bridge.callAttr("get_account_summary").toString();
-                handler.post(() -> tvAccountInfo.setText(info));
+                String qqListStr = bridge.callAttr("get_qq_list").toString();
+                String[] qqArray = qqListStr.split(",");
+                List<String> list = new ArrayList<>();
+                for (String q : qqArray) if (!q.trim().isEmpty()) list.add(q.trim());
+                
+                String summary = bridge.callAttr("get_account_summary").toString();
+                
+                handler.post(() -> {
+                    if (list.isEmpty()) {
+                        list.add("请先配置 Cookie");
+                    }
+                    ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, list);
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    spAccounts.setAdapter(adapter);
+                    tvAccountInfo.setText(summary);
+                });
             } catch (Exception e) {
                 handler.post(() -> tvAccountInfo.setText("账号信息加载失败"));
             }
@@ -173,12 +219,19 @@ public class MainActivity extends AppCompatActivity {
 
     private void runTask(String module) {
         if (isRunning) return;
+        
+        String selectedQq = spAccounts.getSelectedItem() != null ? spAccounts.getSelectedItem().toString() : "";
+        if (selectedQq.contains("请先配置")) {
+            Toast.makeText(this, "请先进入 Cookie 界面配置账号", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         isRunning = true;
-        setRunningState(true, module.equals("noon") ? "🌞 执行午间任务中..." : "🌙 执行晚间任务中...");
+        setRunningState(true, (module.equals("noon") ? "🌞 执行午间任务 (" : "🌙 执行晚间任务 (") + selectedQq + ")...");
         executor.execute(() -> {
             try {
                 PyObject bridge = Python.getInstance().getModule("bridge");
-                bridge.callAttr("run_module", module);
+                bridge.callAttr("run_module", module, selectedQq);
                 handler.post(() -> setRunningState(false, "✅ 任务执行完成"));
             } catch (Exception e) {
                 handler.post(() -> setRunningState(false, "❌ 执行失败: " + e.getMessage()));
